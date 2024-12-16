@@ -1,0 +1,112 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 14:07:07 by qacjl             #+#    #+#             */
+/*   Updated: 2024/12/16 14:42:59 by qacjl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include"so_long.h"
+
+static int	count_lines(const char	*file)
+{
+	int		fd;
+	int		lines;
+	char	buffer;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	lines = 0;
+	while (read(fd, &buffer, 1) > 0)
+	{
+		if (buffer == '\n')
+			lines++;
+	}
+	close(fd);
+	if (lines <= 0)
+		return (0);
+	return (lines);
+}
+
+static void	free_map_on_error(char **map_data, int lines)
+{
+	int	i;
+
+	i = 0;
+	while (i < lines)
+	{
+		free(map_data[i]);
+		i++;
+	}
+	free(map_data);
+}
+
+static int allocate_map(t_map *map, int line_count, int fd)
+{
+	int i = 0;
+
+	map->data = malloc(sizeof(char *) * (line_count + 1));
+	if (!map->data)
+		return (write(2, "MEMORY ALLOCATION FAILED\n", 26), close(fd), 0);
+
+	while (i < line_count)
+	{
+		map->data[i] = get_next_line(fd);
+		if (!map->data[i])
+			return (write(2, "FAILED TO READ A LINE\n", 23), free_map_on_error(map->data, i), close(fd), 0);
+		i++;
+	}
+	map->data[i] = NULL;
+	close(fd);
+	return (1);
+}
+
+char **read_map(const char *file, t_map *map)
+{
+	int	fd;
+	int	line_count;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (write(2, "CANNOT OPEN FILE\n", 18), NULL);
+
+	line_count = count_lines(file);
+	if (line_count <= 0)
+		return (write(2, "NO LINE IN MAP\n", 16), close(fd), NULL);
+
+	if (!allocate_map(map, line_count, fd))
+		return (NULL);
+	map->height = line_count;
+	map->width = map->data[0] ? ft_strlen(map->data[0]) - 1 : 0;
+	return (map->data);
+}
+
+void find_player_position(t_game *game)
+{
+	int y = 0;
+	int x;
+
+	while (y < game->map.height)
+	{
+		x = 0;
+		while (x < game->map.width)
+		{
+			if (game->map.data[y][x] == 'P')
+			{
+				game->player_x = x;
+				game->player_y = y;
+                ft_printf("Player found at (%d, %d)\n", game->player_x, game->player_y);
+				return;
+			}
+			x++;
+		}
+		y++;
+	}
+	write(2, "NO player\n", 11);
+	close_game(game);
+}
