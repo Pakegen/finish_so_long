@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:07:11 by qacjl             #+#    #+#             */
-/*   Updated: 2024/12/11 16:28:46 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 01:43:46 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx, game->window, game->current_player_img, game->player_x * TILE_SIZE, game->player_y * TILE_SIZE);
+	mlx_put_image_to_window(game->mlx, game->window, game->current_player_img, game->player_x * TILE_SIZE,
+		 game->player_y * TILE_SIZE);
 }

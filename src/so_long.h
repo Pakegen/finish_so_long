@@ -6,14 +6,14 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:29:48 by qacjl             #+#    #+#             */
-/*   Updated: 2024/12/16 14:12:54 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 01:06:19 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "mlx.h"
+#include "../minilibx-linux/mlx.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -58,16 +58,18 @@ typedef struct s_game
 	int		steps;
 }t_game;
 
-int validate_filename(const char *filename);
-char **read_map(const char *file, t_map *map);
-int validate_map(t_map *map);
-void count_elements(t_map *map, int *player, int *exit, int *collectables);
-int validate_element(t_map *map);
-void load_sprites(t_game *game);
-void render_map(t_game *game);
-int handle_input(int keycode, t_game *game);
-int close_game(t_game *game);
-int validate_borders(t_map *map);
-void find_player_position(t_game *game);
+int 	validate_filename(const char *filename);
+char 	**read_map(const char *file, t_map *map);
+int 	validate_map(t_map *map);
+void 	count_elements(t_map *map, int *player, int *exit, int *collectables);
+int 	validate_element(t_map *map);
+void 	load_sprites(t_game *game);
+void 	render_map(t_game *game);
+int 	handle_input(int keycode, t_game *game);
+int 	close_game(t_game *game);
+int 	validate_borders(t_map *map);
+void	find_player_position(t_map *map, int *player_x, int *player_y);
+void	initialize_map(t_map *map);
+int		validate_paths(t_map *map, int player_x, int player_y);
 
 # endif

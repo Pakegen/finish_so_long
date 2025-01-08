@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:07:07 by qacjl             #+#    #+#             */
-/*   Updated: 2024/12/16 14:42:59 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 01:28:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,29 @@ char **read_map(const char *file, t_map *map)
 	return (map->data);
 }
 
-void find_player_position(t_game *game)
+void find_player_position(t_map *map, int *player_x, int *player_y)
 {
-	int y = 0;
+	int y;
 	int x;
 
-	while (y < game->map.height)
+	y = 0;
+	while (y < map->height)
 	{
 		x = 0;
-		while (x < game->map.width)
+		while (x < map->width)
 		{
-			if (game->map.data[y][x] == 'P')
+			if (map->data[y][x] == 'P')
 			{
-				game->player_x = x;
-				game->player_y = y;
-                ft_printf("Player found at (%d, %d)\n", game->player_x, game->player_y);
+				*player_x = x;
+				*player_y = y;
+				ft_printf("Player found at (%d, %d)\n", *player_x, *player_y);
 				return;
 			}
 			x++;
 		}
 		y++;
 	}
-	write(2, "NO player\n", 11);
-	close_game(game);
+	write(2, "NO PLAYER FOUND\n", 17);
 }
+
+

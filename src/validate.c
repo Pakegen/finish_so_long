@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:07:11 by qacjl             #+#    #+#             */
-/*   Updated: 2024/12/13 15:46:32 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 01:10:13 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,19 @@ int	validate_element(t_map *map)
 	return (1);
 }
 
-int	validate_map(t_map *map)
+int validate_map(t_map *map)
 {
+	int player_x;
+	int player_y;
+
+	player_x = 0;
+	player_y = 0;
 	if (!validate_borders(map))
 		return (0);
 	if (!validate_element(map))
+		return (0);
+	find_player_position(map, &player_x, &player_y);
+	if (!validate_paths(map, player_x, player_y))
 		return (0);
 	return (1);
 }
