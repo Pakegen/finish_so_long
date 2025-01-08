@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:07:11 by qacjl             #+#    #+#             */
-/*   Updated: 2025/01/08 01:43:46 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 09:55:19 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	render_tile(t_game *game, int y, int x)
 		img = game->collect_img;
 	else if (game->map.data[y][x] == 'E')
 		img = game->exit_img;
-	mlx_put_image_to_window(game->mlx, game->window, img, x * TILE_SIZE, y * TILE_SIZE);
+	mlx_put_image_to_window(game->mlx, game->window, img, x * TILE_SIZE,
+		y * TILE_SIZE);
 }
 
 void	render_map(t_game *game)
@@ -42,6 +43,7 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx, game->window, game->current_player_img, game->player_x * TILE_SIZE,
-		 game->player_y * TILE_SIZE);
+	mlx_put_image_to_window(game->mlx, game->window, game->current_player_img,
+		game->player_x * TILE_SIZE,
+		game->player_y * TILE_SIZE);
 }

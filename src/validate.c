@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:07:11 by qacjl             #+#    #+#             */
-/*   Updated: 2025/01/08 01:10:13 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/01/08 09:53:47 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 int	validate_filename(const char *filename)
 {
 	const char	*extension;
-
-	size_t	len;
-	size_t	ext_len;
+	size_t		len;
+	size_t		ext_len;
 
 	extension = ".ber";
 	len = ft_strlen(filename);
@@ -47,7 +46,7 @@ void	count_elements(t_map *map, int *player, int *exit, int *collectable)
 			else if (map->data[y][x] != '1' && map->data[y][x] != '0')
 			{
 				write(2, "INVALID CHARACTER IN MAP\n", 26);
-				return;
+				return ;
 			}
 			x++;
 		}
@@ -57,7 +56,6 @@ void	count_elements(t_map *map, int *player, int *exit, int *collectable)
 
 int	validate_element(t_map *map)
 {
-
 	int	player;
 	int	exit;
 	int	collectable;
@@ -75,10 +73,10 @@ int	validate_element(t_map *map)
 	return (1);
 }
 
-int validate_map(t_map *map)
+int	validate_map(t_map *map)
 {
-	int player_x;
-	int player_y;
+	int	player_x;
+	int	player_y;
 
 	player_x = 0;
 	player_y = 0;
