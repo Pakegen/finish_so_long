@@ -82,8 +82,11 @@ char	**read_map(const char *file, t_map *map)
 		return (write(2, "NO LINE IN MAP\n", 16), close(fd), NULL);
 	if (!allocate_map(map, line_count, fd))
 		return (NULL);
+	if (map->data[0] != NULL)
+		map->width = ft_strlen(map->data[0]) - 1;
+	else
+		map->width = 0;
 	map->height = line_count;
-	map->width = map->data[0] ? ft_strlen(map->data[0]) - 1 : 0;
 	return (map->data);
 }
 
