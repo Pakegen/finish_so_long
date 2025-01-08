@@ -18,6 +18,7 @@ SRC = $(SRCDIR)/main.c \
       $(SRCDIR)/validate.c \
       $(SRCDIR)/validate_2.c \
       $(SRCDIR)/input.c \
+	  $(SRCDIR)/validate_path.c\
       $(SRCDIR)/render.c
 
 OBJ = $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
