@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:36:28 by qacjl             #+#    #+#             */
-/*   Updated: 2025/01/08 09:54:18 by quenalla         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:24:42 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	validate_horizontal_borders(t_map *map)
 	int	x;
 
 	x = 0;
-	if (!map->data[0] || !map->data[map->height - 1])
+	if (!map->data[0] || !map->data[map->height - 1])//ici
 		return (write(2, "INVALID HORIZONTAL BORDER\n", 27), 0);
 	while (x < map->width)
 	{
@@ -44,7 +44,7 @@ static int	validate_vertical_borders(t_map *map)
 	return (1);
 }
 
-int	validate_borders(t_map *map)
+int validate_borders(t_map *map)//ici
 {
 	if (!map || !map->data || map->width <= 0 || map->height <= 0)
 		return (write(2, "INVALID MAP DIMENSION\n", 23), 0);

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   validate_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 00:54:25 by qacjl             #+#    #+#             */
-/*   Updated: 2025/01/08 09:57:09 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/01/08 01:30:57 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	free_map_copy(char **map_copy, int height)
+static void free_map_copy(char **map_copy, int height)
 {
-	int	y;
+	int y;
 
 	y = 0;
 	while (y < height)
@@ -25,10 +25,10 @@ static void	free_map_copy(char **map_copy, int height)
 	free(map_copy);
 }
 
-static char	**copy_map(t_map *map)
+static char **copy_map(t_map *map)
 {
-	char	**map_copy;
-	int		y;
+	char **map_copy;
+	int y;
 
 	y = 0;
 	map_copy = malloc(sizeof(char *) * (map->height + 1));
@@ -48,11 +48,11 @@ static char	**copy_map(t_map *map)
 	return (map_copy);
 }
 
-static int	count_collectables(t_map *map, char **map_copy)
+static int count_collectables(t_map *map, char **map_copy)
 {
-	int	collectables;
-	int	y;
-	int	x;
+	int collectables;
+	int y;
+	int x;
 
 	collectables = 0;
 	y = 0;
@@ -70,35 +70,37 @@ static int	count_collectables(t_map *map, char **map_copy)
 	return (collectables);
 }
 
-static void	explore_path(char **map, int y, int x, int *info)
+void mark_visited(char **map, int y, int x, int *collectables, int *exit_found)
 {
-	if (y < 0 || x < 0 || !map[y]
-		|| x >= (int)strlen(map[y]) || map[y][x] == '1' || map[y][x] == 'V')
-		return ;
+	if (y < 0 || x < 0 || !map[y] || x >= (int)strlen(map[y]) || map[y][x] == '1' || map[y][x] == 'V')
+		return;
+
 	if (map[y][x] == 'C')
-		info[0}--;
+		(*collectables)--;
 	if (map[y][x] == 'E')
-		info[1] = 1;
-	map[y][x] = 'V';
+		*exit_found = 1;
+
+	map[y][x] = 'V'; // Marque la case comme visitée
 	mark_visited(map, y + 1, x, collectables, exit_found);
 	mark_visited(map, y - 1, x, collectables, exit_found);
 	mark_visited(map, y, x + 1, collectables, exit_found);
 	mark_visited(map, y, x - 1, collectables, exit_found);
 }
 
-int	validate_paths(t_map *map, int player_x, int player_y)
+int validate_paths(t_map *map, int player_x, int player_y)
 {
-	char	**map_copy;
-	int	info[2]; //info[0] c'est collectable et info[1] exit_found
+	char **map_copy;
+	int collectables;
+	int exit_found;
 
 	map_copy = copy_map(map);
+	exit_found = 0;
 	if (!map_copy)
 		return (write(2, "MEMORY ALLOCATION FAILED\n", 26), 0);
-	info[0] = count_collectables(map_copy, map->height);
-	info[1] = 0;
-	explore_path(map_copy, player_y, player_x, info);
+	collectables = count_collectables(map, map_copy);
+	mark_visited(map_copy, player_y, player_x, &collectables, &exit_found);
 	free_map_copy(map_copy, map->height);
-	if (info[0] > 0 || info[1] == 0)
+	if (collectables > 0 || !exit_found)
 		return (write(2, "INVALID PATHS\n", 15), 0);
 	return (1);
 }
